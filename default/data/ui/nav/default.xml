@@ -1,4 +1,4 @@
-<nav search_view="search">
+<nav>
   <view name="cloud-migration" default='true' label="Cloud Migration Overview"/>
   <view name="ko-migration" label="Knowledge Object Mirgation"/>
   <view name="kv-migration" label="KVStore Migration"/>
