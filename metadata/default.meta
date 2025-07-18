@@ -9,6 +9,8 @@ access = read : [ * ], write : [ admin, power ]
 [eventtypes]
 export = system
 
+[searchbnf]
+export = system
 
 ### PROPS
 
@@ -29,6 +31,9 @@ export = system
 ### LOOKUPS
 
 [lookups]
+export = system
+
+[commands]
 export = system
 
 
