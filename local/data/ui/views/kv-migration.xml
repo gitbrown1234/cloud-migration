@@ -15,6 +15,7 @@
       <label>Dry Run</label>
       <choice value="true">true</choice>
       <choice value="false">false</choice>
+      <default>true</default>
     </input>
   </fieldset>
   <row>

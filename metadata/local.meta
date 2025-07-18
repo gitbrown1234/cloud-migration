@@ -8,4 +8,8 @@ modtime = 1752701154.994203000
 
 [views/kv-migration]
 version = 9.3.1
-modtime = 1752805686.544160000
+modtime = 1752805881.965930000
+
+[views/ko-migration]
+version = 9.3.1
+modtime = 1752829421.497889000

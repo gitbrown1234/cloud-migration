@@ -1,0 +1,46 @@
+<form version="1.1" theme="dark">
+  <label>Knowledge Object Migration</label>
+  <description>Knowledge Object Migration</description>
+  <fieldset submitButton="false">
+    <input type="text" token="srcHost">
+      <label>Source Host</label>
+    </input>
+    <input type="text" token="destHost">
+      <label>Destination Host</label>
+    </input>
+    <input type="text" token="srcUsername">
+      <label>Source Username</label>
+    </input>
+    <input type="text" token="destUsername">
+      <label>Destination Username</label>
+    </input>
+    <input type="text" token="srcPassword">
+      <label>Source Password</label>
+    </input>
+    <input type="text" token="destPassword">
+      <label>Destination Password</label>
+    </input>
+    <input type="radio" token="field1">
+      <label>All KOs</label>
+      <choice value="true">true</choice>
+      <choice value="false">false</choice>
+      <default>false</default>
+    </input>
+    <input type="text" token="srcApp">
+      <label>Source App</label>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>| transferko srcURL="$srcHost$" destURL="$destHost$" srcUsername="$srcUsername$" srcPassword="$srcPassword$" destUsername="$destUsername$" destPassword="$destPassword$" srcApp="$srcApp$" destApp="learned"  enable_macros=true</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>
