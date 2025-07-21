@@ -19,7 +19,7 @@
               </li>
               <li style="margin-bottom: 8px;">
                 <strong style="color: #65A637;">File Path:</strong><br/>
-                Enter the base directory path on the server where the KVStore JSON backup files are located.<br/>
+                Enter the base directory path on the server where the KVStore JSON backup files are located. Ensure to extract the backup first and remove any apps that you dont want to migrate as this will migrate everything in the directory.<br/>
                 Example: <code style="font-family: monospace; background-color: #333; padding: 2px 4px; border-radius: 3px; color: #65A637;">/opt/splunk/var/lib/splunk/kvstorebackup/test1/</code>
               </li>
               <li style="margin-bottom: 8px;">

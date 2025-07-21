@@ -8,14 +8,13 @@ import requests
 # and splunklib is in $SPLUNK_HOME/etc/apps/<your_app>/lib/
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option, validators
-from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option, validators
 
 
 @Configuration()
 class KVStoreMigrator(GeneratingCommand):
     """
     The kvstoremigrator command processes JSON files from a specified base path
-    and posts their data to Splunk KVStore collections.
+    and posts their data to Splunk KVStore collections using the batch_save endpoint.
 
     Example:
 
@@ -34,7 +33,7 @@ class KVStoreMigrator(GeneratingCommand):
     
     # Optional comma-separated list to filter which apps to process
     # This option is ignored if all_apps=true
-    include_apps = Option(require=False, default="")
+    include_apps = Option(require=False)
     
     # Option to process all apps found in the base_path
     all_apps = Option(require=False, validate=validators.Boolean(), default=False)
@@ -92,15 +91,16 @@ class KVStoreMigrator(GeneratingCommand):
 
     def _post_json_data(self, json_file_path, splunk_host, auth_token, app_name, collection_name, dry_run):
         """
-        Reads a JSON file and attempts to post its data to a Splunk KVStore collection.
+        Reads a JSON file and attempts to post its data to a Splunk KVStore collection
+        using the batch_save endpoint.
         Yields events for debugging, success, failure, or network errors.
         """
-        endpoint = f'/servicesNS/nobody/{app_name}/storage/collections/data/{collection_name}'
+        endpoint = f'/servicesNS/nobody/{app_name}/storage/collections/data/{collection_name}/batch_save' # Changed endpoint to batch_save
         url = splunk_host + endpoint
 
         try:
             with open(json_file_path, 'r') as file:
-                data_list = json.load(file)  # Load JSON data from file
+                data_list = json.load(file)  # Load JSON data from file (this will be the list of entries)
         except json.JSONDecodeError as e:
             yield self._create_event(
                 log_level="ERROR",
@@ -133,80 +133,78 @@ class KVStoreMigrator(GeneratingCommand):
             )
             return
 
-        for entry in data_list:
-            payload = json.dumps(entry)  # Convert dictionary entry to JSON string
-            
+        # Prepare the entire data_list as the payload for batch_save
+        payload = json.dumps(data_list) # The whole list is the payload
+
+        yield self._create_event(
+            log_level="DEBUG",
+            message=f"Attempting to send batch payload to {url}",
+            payload_size=len(payload),
+            app_name=app_name,
+            collection_name=collection_name,
+            json_file=os.path.basename(json_file_path),
+            _raw=f"DEBUG: Attempting to send batch payload to {url}: {payload[:500]}..." # Truncate for _raw
+        )
+
+        if dry_run:
             yield self._create_event(
-                log_level="DEBUG",
-                message=f"Attempting to send payload to {url}",
-                payload_size=len(payload),
+                log_level="INFO",
+                message=f"DRY RUN: Would have posted batch payload for {json_file_path}",
+                payload=payload,
                 app_name=app_name,
                 collection_name=collection_name,
                 json_file=os.path.basename(json_file_path),
-                _raw=f"DEBUG: Attempting to send payload to {url}: {payload[:200]}..." # Truncate payload for _raw
+                _raw=f"INFO: DRY RUN - Would have posted batch payload for '{json_file_path}' to KVStore '{collection_name}' in app '{app_name}'. Payload: {payload}"
+            )
+            return
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Splunk {auth_token}'  # Token-based authorization
+        }
+
+        try:
+            response = requests.post(
+                url,
+                headers=headers,
+                data=payload,
+                verify=False
             )
 
-            if dry_run:
+            # For batch_save, the typical successful status code is 200 OK
+            if response.status_code == 200: # Changed status code check from 201 to 200
                 yield self._create_event(
-                    log_level="INFO",
-                    message=f"DRY RUN: Would have posted payload for {json_file_path}",
-                    payload=payload,
+                    log_level="SUCCESS",
+                    message=f"Successfully posted batch payload for {json_file_path}",
+                    status_code=response.status_code,
                     app_name=app_name,
                     collection_name=collection_name,
                     json_file=os.path.basename(json_file_path),
-                    _raw=f"INFO: DRY RUN - Would have posted payload for '{json_file_path}' to KVStore '{collection_name}' in app '{app_name}'. Payload: {payload}"
+                    payload_sent=payload, # Log the full payload on success
+                    _raw=f"SUCCESS: Posted batch payload for '{json_file_path}' to KVStore '{collection_name}' in app '{app_name}'. Status: {response.status_code}"
                 )
-                continue
-
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': f'Splunk {auth_token}'  # Token-based authorization
-            }
-
-            try:
-                # Disables SSL verification (equivalent to `-k` in curl).
-                # Consider using a proper CA bundle in production for security.
-                response = requests.post(
-                    url,
-                    headers=headers,
-                    data=payload,
-                    verify=False
-                )
-
-                # Handle the HTTP response
-                if response.status_code == 201: # 201 Created is typical for successful KVStore POST
-                    yield self._create_event(
-                        log_level="SUCCESS",
-                        message=f"Successfully posted payload for {json_file_path}",
-                        status_code=response.status_code,
-                        app_name=app_name,
-                        collection_name=collection_name,
-                        json_file=os.path.basename(json_file_path),
-                        payload_sent=payload, # Log the full payload on success
-                        _raw=f"SUCCESS: Posted payload for '{json_file_path}' to KVStore '{collection_name}' in app '{app_name}'. Status: {response.status_code}"
-                    )
-                else:
-                    yield self._create_event(
-                        log_level="ERROR",
-                        message=f"Failed to post payload for {json_file_path}. Status: {response.status_code}, Response: {response.text}",
-                        status_code=response.status_code,
-                        response_text=response.text,
-                        app_name=app_name,
-                        collection_name=collection_name,
-                        json_file=os.path.basename(json_file_path),
-                        payload_attempted=payload, # Log the payload that failed
-                        _raw=f"ERROR: Failed to post payload for '{json_file_path}'. Status: {response.status_code}, Response: {response.text}. Payload: {payload}"
-                    )
-            except requests.exceptions.RequestException as e:
+            else:
                 yield self._create_event(
-                    log_level="CRITICAL",
-                    message=f"Network error while posting payload for {json_file_path}: {e}",
+                    log_level="ERROR",
+                    message=f"Failed to post batch payload for {json_file_path}. Status: {response.status_code}, Response: {response.text}",
+                    status_code=response.status_code,
+                    response_text=response.text,
                     app_name=app_name,
                     collection_name=collection_name,
                     json_file=os.path.basename(json_file_path),
-                    payload_attempted=payload,
-                    _raw=f"CRITICAL: Network error during KVStore POST for '{json_file_path}'. Error: {e}. Payload: {payload}"
+                    payload_attempted=payload, # Log the payload that failed
+                    _raw=f"ERROR: Failed to post batch payload for '{json_file_path}'. Status: {response.status_code}, Response: {response.text}. Payload: {payload}"
                 )
+        except requests.exceptions.RequestException as e:
+            yield self._create_event(
+                log_level="CRITICAL",
+                message=f"Network error while posting batch payload for {json_file_path}: {e}",
+                app_name=app_name,
+                collection_name=collection_name,
+                json_file=os.path.basename(json_file_path),
+                payload_attempted=payload,
+                _raw=f"CRITICAL: Network error during KVStore batch POST for '{json_file_path}'. Error: {e}. Payload: {payload}"
+            )
 
     def _process_directory(self, base_path, splunk_host, auth_token, included_apps, all_apps, dry_run):
         """

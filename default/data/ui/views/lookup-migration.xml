@@ -5,7 +5,6 @@
   <fieldset submitButton="false">
     <!-- HTML INSTRUCTIONS FOR LOOKUP MIGRATION -->
       <html>
-
           <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
             <h3 style="font-size: 1.2em; color: #F0F0F0; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">Dashboard Fields:</h3>
             <ul style="list-style-type: disc; margin-left: 25px; padding-left: 0; color: #D0D0D0;">
