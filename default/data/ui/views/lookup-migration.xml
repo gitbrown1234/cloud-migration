@@ -1,7 +1,42 @@
 <form version="1.1" theme="dark">
   <label>Lookup Migration</label>
   <description>Lookup Migration</description>
+
   <fieldset submitButton="false">
+    <!-- HTML INSTRUCTIONS FOR LOOKUP MIGRATION -->
+      <html>
+
+          <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+            <h3 style="font-size: 1.2em; color: #F0F0F0; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">Dashboard Fields:</h3>
+            <ul style="list-style-type: disc; margin-left: 25px; padding-left: 0; color: #D0D0D0;">
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source Host / Destination Host:</strong><br/>
+                Enter the full hostname or IP address of the Splunk instance.<br/>
+                Example: <code style="font-family: monospace; background-color: #333; padding: 2px 4px; border-radius: 3px; color: #65A637;">your-splunk-host</code>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source Token / Destination Token:</strong><br/>
+                Provide the Splunk authentication token for the respective instance.<br/>
+                (Note: Username/Password options are also available for the underlying command).
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source App:</strong><br/>
+                Specify the name of the Splunk app on the source instance where the lookups reside.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Lookup Name:</strong><br/>
+                By default, this dashboard migrates "all" CSV lookups. The underlying command also supports specifying a single lookup file name (e.g., <code style="font-family: monospace; background-color: #333; padding: 2px 4px; border-radius: 3px; color: #65A637;">my_lookup.csv</code>).
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Overwrite Existing:</strong><br/>
+                Select "Yes" to overwrite lookups on the destination if they already exist.<br/>
+                Select "No" to skip lookups that already exist on the destination.
+              </li>
+            </ul>
+        </div>
+      </html>
+
+    <!-- ORIGINAL FIELDSET INPUTS -->
     <input type="text" token="srcHost">
       <label>Source Host</label>
     </input>

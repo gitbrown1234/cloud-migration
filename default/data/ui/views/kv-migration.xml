@@ -1,7 +1,37 @@
 <form version="1.1" theme="dark">
   <label>KVStore Migration</label>
   <description>KVStore Migration</description>
+
   <fieldset submitButton="false">
+    <!-- HTML INSTRUCTIONS FOR KVStore Migration -->
+      <html>
+          <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+            <h3 style="font-size: 1.2em; color: #F0F0F0; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">Dashboard Fields:</h3>
+            <ul style="list-style-type: disc; margin-left: 25px; padding-left: 0; color: #D0D0D0;">
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Splunk Host:</strong><br/>
+                Enter the full URL of the Splunk instance where the KVStore data will be posted.<br/>
+                Example: <code style="font-family: monospace; background-color: #333; padding: 2px 4px; border-radius: 3px; color: #65A637;">https://your-splunk-host:8089</code>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Token:</strong><br/>
+                Provide the Splunk authentication token for the Splunk instance.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">File Path:</strong><br/>
+                Enter the base directory path on the server where the KVStore JSON backup files are located.<br/>
+                Example: <code style="font-family: monospace; background-color: #333; padding: 2px 4px; border-radius: 3px; color: #65A637;">/opt/splunk/var/lib/splunk/kvstorebackup/test1/</code>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Dry Run:</strong><br/>
+                Select "true" to simulate the migration process without actually posting any data to Splunk.<br/>
+                Select "false" to perform the actual migration.
+              </li>
+            </ul>
+        </div>
+      </html>
+
+    <!-- ORIGINAL FIELDSET INPUTS -->
     <input type="text" token="splunk_host">
       <label>Splunk Host</label>
     </input>
@@ -22,11 +52,10 @@
     <panel>
       <table>
         <search>
-          <query>| kvstoremigrator splunk_host="$splunk_host$" auth_token="$auth_token$" base_path="$file_path$" all_apps=true dry_run=$dry_run$  | reverse</query>
+          <query>| kvstoremigrator splunk_host="$splunk_host$" auth_token="$auth_token$" base_path="$file_path$" all_apps=true dry_run=$dry_run$ | table *</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
-        <option name="count">100</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>

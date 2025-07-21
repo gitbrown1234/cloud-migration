@@ -1,7 +1,52 @@
 <form version="1.1" theme="dark">
   <label>Knowledge Object Migration</label>
   <description>Knowledge Object Migration</description>
+
   <fieldset submitButton="false">
+    <!-- HTML INSTRUCTIONS: Using input type="html" to place it at the top of the form inputs -->
+      <html>
+          <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+            <h3 style="font-size: 1.2em; color: #F0F0F0; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">Dashboard Fields:</h3>
+            <ul style="list-style-type: disc; margin-left: 25px; padding-left: 0; color: #D0D0D0;">
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source Host / Destination Host:</strong><br/>
+                Enter the full URL of the Splunk instance, including the port.<br/>
+                Example: <code style="font-family: monospace; background-color: #333; padding: 2px 4px; border-radius: 3px; color: #65A637;">https://your-splunk-host:8089</code>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source Token / Destination Token:</strong><br/>
+                Provide the Splunk authentication token for the respective instance.<br/>
+                Alternatively, fields for Username and Password may be available for authentication.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source App:</strong><br/>
+                Specify the exact name of the Splunk app on the source instance from which objects will be migrated.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Override Mode:</strong><br/>
+                Select how existing objects on the destination should be handled if a conflict is detected.
+                <ul style="list-style-type: circle; margin-left: 20px; margin-top: 5px; color: #D0D0D0;">
+                  <li style="margin-bottom: 3px;"><strong>None:</strong> Skip if object already exists.</li>
+                  <li style="margin-bottom: 3px;"><strong>Override:</strong> Overwrite only if the source object has a newer modification timestamp.</li>
+                  <li style="margin-bottom: 3px;"><strong>Always Override:</strong> Any existing object on the destination will be overwritten by the source object, regardless of timestamps.</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Which Objects?:</strong><br/>
+                Choose specific types of knowledge objects to migrate from the provided dropdown list (e.g., Macros, Dashboards, Saved Searches, Event Types).<br/>
+                Select "All" to include all supported knowledge object types in the migration.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Migrate Private Objects:</strong><br/>
+                Select "Yes" to include user-level (private) objects in the migration.<br/>
+                Select "No" to exclude user-level (private) objects from the migration.
+              </li>
+            </ul>
+        </div>
+      </html>
+    
+
+    <!-- FORM INPUTS -->
     <input type="text" token="srcHost">
       <label>Source Host</label>
     </input>
@@ -53,6 +98,8 @@
       <choice value="enable_noPrivate=false">No</choice>
     </input>
   </fieldset>
+
+  <!-- ROW for search results (outside fieldset) -->
   <row>
     <panel>
       <table>
