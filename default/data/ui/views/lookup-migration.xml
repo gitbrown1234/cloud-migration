@@ -1,4 +1,39 @@
-<dashboard version="1.1" theme="dark">
+<form version="1.1" theme="dark">
   <label>Lookup Migration</label>
   <description>Lookup Migration</description>
-</dashboard>
+  <fieldset submitButton="false">
+    <input type="text" token="srcHost">
+      <label>Source Host</label>
+    </input>
+    <input type="text" token="srcToken">
+      <label>Source Token</label>
+    </input>
+    <input type="text" token="destHost">
+      <label>Destination Host</label>
+    </input>
+    <input type="text" token="destToken">
+      <label>Destination Token</label>
+    </input>
+    <input type="text" token="srcApp">
+      <label>Source App</label>
+    </input>
+    <input type="radio" token="overWrite">
+      <label>Overwrite Existing</label>
+      <choice value="enable_overwrite_existing=true">Yes</choice>
+      <choice value="">No</choice>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>| lookupmigrator src_host="$srcHost$" src_port=8089 src_token="$srcToken$" dst_host="$destHost$" src_app="$srcApp$" dst_port=8089 dst_token="$destToken$" lookup_name="all" $overWrite$   | reverse</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">100</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>

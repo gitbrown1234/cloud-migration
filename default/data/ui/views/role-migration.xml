@@ -28,8 +28,8 @@
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
+        <option name="count">100</option>
         <option name="drilldown">none</option>
-        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>

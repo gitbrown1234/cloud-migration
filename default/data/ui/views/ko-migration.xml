@@ -57,10 +57,11 @@
     <panel>
       <table>
         <search>
-          <query>| transferko srcURL="$srcHost$" destURL="$destHost$" srcToken="$srcToken$" destToken="$destToken$" srcApp="$srcApp$" srcAuthtype="token" destAuthtype="token" $overrideMode$ $privateMode$ $koType$</query>
+          <query>| transferko srcURL="$srcHost$" destURL="$destHost$" srcToken="$srcToken$" destToken="$destToken$" srcApp="$srcApp$" srcAuthtype="token" destAuthtype="token" $overrideMode$ $privateMode$ $koType$ | reverse</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
+        <option name="count">100</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>

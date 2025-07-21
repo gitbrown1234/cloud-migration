@@ -31,25 +31,25 @@ class LookupMigratorCommand(GeneratingCommand):
     """
 
     # Source arguments
-    src_host = Option(require=True, validate=validators.String())
+    src_host = Option(require=True)
     src_port = Option(require=True, validate=validators.Integer())
-    src_authtype = Option(require=False, validate=validators.Set('password', 'token'), default='password')
-    src_username = Option(require=False, validate=validators.String(), default="")
-    src_password = Option(require=False, validate=validators.String(), default="")
-    src_token = Option(require=False, validate=validators.String(), default="")
-    src_app = Option(require=True, validate=validators.String())
+    src_authtype = Option(require=False, validate=validators.Set('password', 'token'), default='token')
+    src_username = Option(require=False)
+    src_password = Option(require=False)
+    src_token = Option(require=False)
+    src_app = Option(require=True)
 
     # Destination arguments
-    dst_host = Option(require=True, validate=validators.String())
+    dst_host = Option(require=True)
     dst_port = Option(require=True, validate=validators.Integer())
-    dst_authtype = Option(require=False, validate=validators.Set('password', 'token'), default='password')
-    dst_username = Option(require=False, validate=validators.String(), default="")
-    dst_password = Option(require=False, validate=validators.String(), default="")
-    dst_token = Option(require=False, validate=validators.String(), default="")
-    dst_app = Option(require=False, validate=validators.String(), default="") # Defaults to src_app if not specified
+    dst_authtype = Option(require=False, validate=validators.Set('password', 'token'), default='token')
+    dst_username = Option(require=False)
+    dst_password = Option(require=False)
+    dst_token = Option(require=False)
+    dst_app = Option(require=False) # Defaults to src_app if not specified
 
     # Lookup specification
-    lookup_name = Option(require=True, validate=validators.String()) # "all" or specific lookup.csv
+    lookup_name = Option(require=True) # "all" or specific lookup.csv
 
     # Transfer options
     enable_overwrite_existing = Option(require=False, validate=validators.Boolean(), default=False)

@@ -8,16 +8,20 @@ modtime = 1752701154.994203000
 
 [views/kv-migration]
 version = 9.3.1
-modtime = 1752805881.965930000
+modtime = 1753063897.881906000
 
 [views/ko-migration]
 version = 9.3.1
-modtime = 1753055265.905462000
+modtime = 1753063911.468031000
 
 [views/role-migration]
 version = 9.3.1
-modtime = 1753057400.310146000
+modtime = 1753063876.528378000
 
 [views/cloud-migration]
 version = 9.3.1
 modtime = 1753062468.121738000
+
+[views/lookup-migration]
+version = 9.3.1
+modtime = 1753063863.271052000

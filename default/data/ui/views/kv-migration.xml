@@ -22,10 +22,11 @@
     <panel>
       <table>
         <search>
-          <query>| kvstoremigrator splunk_host="$splunk_host$" auth_token="$auth_token$" base_path="$file_path$" all_apps=true dry_run=$dry_run$ | table *</query>
+          <query>| kvstoremigrator splunk_host="$splunk_host$" auth_token="$auth_token$" base_path="$file_path$" all_apps=true dry_run=$dry_run$  | reverse</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
+        <option name="count">100</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>
