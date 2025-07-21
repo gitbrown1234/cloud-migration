@@ -56,33 +56,10 @@ The app introduces the following custom search commands, accessible via Splunk S
 The Cloud Migrations app includes dashboards to provide a user-friendly interface for managing and executing these migration commands.
 
 ### Migration Commands Overview
-*   **Purpose:** This is a high-level informational dashboard that provides a centralized overview of all the custom migration commands included in the app. It describes each command's purpose and lists its key parameters, serving as a quick reference guide for users.
+*   **Purpose:** This dashboard serves as the central entry point and comprehensive guide to the app's capabilities. It provides a high-level overview of each custom migration command, detailing its specific function and listing the key parameters users need to provide. This dashboard acts as a quick reference, helping users understand what each tool does and how to effectively utilize it for various migration scenarios.
 
 ### Command-Specific Dashboards (Assumed)
 *   The app is designed to be complemented by dedicated dashboards (not explicitly provided in this README but implied by the command structure) that offer interactive forms and controls for executing each specific migration command (`transferko`, `kvstoremigrator`, `rolemigrator`, `lookupmigrator`). These dashboards would allow users to input parameters and initiate migration tasks directly from the Splunk UI.
-
-## Installation
-
-1.  **Deploy the App:** Install the `Cloud Migrations` app to your Splunk instance(s) using standard Splunk app installation methods (e.g., via "Manage Apps" in Splunk Web, or by extracting the app package into `$SPLUNK_HOME/etc/apps/`).
-2.  **Install Python Dependencies:** The custom commands rely on external Python libraries (`splunklib` and `requests`). These must be installed into the app's local library path:
-    ```bash
-    # Navigate to your Splunk app's bin directory (e.g., /opt/splunk/etc/apps/Cloud_Migrations/bin/)
-    # Then install dependencies into the app's lib directory
-    $SPLUNK_HOME/bin/splunk cmd python3 -m pip install --target=$SPLUNK_HOME/etc/apps/Cloud_Migrations/lib --upgrade splunklib requests
-    ```
-    *(Replace `$SPLUNK_HOME` with your actual Splunk installation path and `Cloud_Migrations` with your app's directory name if different.)*
-3.  **Restart Splunk:** After installing the app and its dependencies, a full Splunk restart is required for the custom commands and dashboards to be recognized:
-    ```bash
-    $SPLUNK_HOME/bin/splunk restart
-    ```
-
-## Usage
-
-*   **Via Dashboards:** Access the "Cloud Migrations" app from the Splunk home screen. Navigate to the "Migration Commands Overview" dashboard for information, and then to specific command dashboards to execute migration tasks.
-*   **Via Search (SPL):** All commands can be executed directly from the Splunk Search bar using SPL. Refer to the `searchbnf.conf` files (located in the app's `default` directory) for detailed syntax and available options for each command. For example:
-    ```splunk
-    | transferko srcURL="..." destURL="..." srcApp="..." enable_all=true
-    ```
 
 ## Credits / Original Script Sources
 
