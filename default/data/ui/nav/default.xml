@@ -3,4 +3,5 @@
   <view name="ko-migration" label="Knowledge Object Mirgation"/>
   <view name="kv-migration" label="KVStore Migration"/>
   <view name="role-migration" label="Role Migration" />
+  <view name="lookup-migration" label="Lookup Migration" />
 </nav>

@@ -12,4 +12,12 @@ modtime = 1752805881.965930000
 
 [views/ko-migration]
 version = 9.3.1
-modtime = 1752829421.497889000
+modtime = 1753055265.905462000
+
+[views/role-migration]
+version = 9.3.1
+modtime = 1753057400.310146000
+
+[views/cloud-migration]
+version = 9.3.1
+modtime = 1753062468.121738000

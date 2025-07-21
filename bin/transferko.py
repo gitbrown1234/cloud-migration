@@ -256,181 +256,181 @@ class TransferKOCommand(GeneratingCommand):
             if self.enable_eventtypes:
                 yield self._create_event("INFO", f"Begin eventtypes transfer for app {current_src_app}")
                 yield from self._eventtypes(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["eventtypes"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["eventtypes"]
                 )
                 yield self._create_event("INFO", f"End eventtypes transfer for app {current_src_app}")
 
             if self.enable_calcFields:
                 yield self._create_event("INFO", f"Begin calcFields transfer for app {current_src_app}")
                 yield from self._calcfields(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["calcfields"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["calcfields"]
                 )
                 yield self._create_event("INFO", f"End calcFields transfer for app {current_src_app}")
 
             if self.enable_fieldAlias:
                 yield self._create_event("INFO", f"Begin fieldAlias transfer for app {current_src_app}")
                 yield from self._fieldaliases(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["fieldaliases"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["fieldaliases"]
                 )
                 yield self._create_event("INFO", f"End fieldAlias transfer for app {current_src_app}")
 
             if self.enable_fieldTransforms:
                 yield self._create_event("INFO", f"Begin fieldTransforms transfer for app {current_src_app}")
                 yield from self._fieldtransformations(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["fieldtransformations"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["fieldtransformations"]
                 )
                 yield self._create_event("INFO", f"End fieldTransforms transfer for app {current_src_app}")
 
             if self.enable_fieldExtraction:
                 yield self._create_event("INFO", f"Begin fieldExtraction transfer for app {current_src_app}")
                 yield from self._fieldextractions(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["fieldextractions"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["fieldextractions"]
                 )
                 yield self._create_event("INFO", f"End fieldExtraction transfer for app {current_src_app}")
 
             if self.enable_collections:
                 yield self._create_event("INFO", f"Begin collections (kvstore definition) transfer for app {current_src_app}")
                 yield from self._collections(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["collections"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["collections"]
                 )
                 yield self._create_event("INFO", f"End collections (kvstore definition) transfer for app {current_src_app}")
 
             if self.enable_lookupDefinition:
                 yield self._create_event("INFO", f"Begin lookupDefinitions transfer for app {current_src_app}")
                 yield from self._lookupdefinitions(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["lookupdefinitions"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["lookupdefinitions"]
                 )
                 yield self._create_event("INFO", f"End lookupDefinitions transfer for app {current_src_app}")
 
             if self.enable_automaticLookup:
                 yield self._create_event("INFO", f"Begin automaticLookup transfer for app {current_src_app}")
                 yield from self._automaticlookups(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["automaticlookups"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["automaticlookups"]
                 )
                 yield self._create_event("INFO", f"End automaticLookup transfer for app {current_src_app}")
 
             if self.enable_times:
                 yield self._create_event("INFO", f"Begin times (conf-times) transfer for app {current_src_app}")
                 yield from self._times(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["times"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["times"]
                 )
                 yield self._create_event("INFO", f"End times (conf-times) transfer for app {current_src_app}")
 
             if self.enable_viewstates:
                 yield self._create_event("INFO", f"Begin viewstates transfer for app {current_src_app}")
                 yield from self._viewstates(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["viewstates"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["viewstates"]
                 )
                 yield self._create_event("INFO", f"End viewstates transfer for app {current_src_app}")
 
             if self.enable_panels:
                 yield self._create_event("INFO", f"Begin pre-built dashboard panels transfer for app {current_src_app}")
                 yield from self._panels(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["panels"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["panels"]
                 )
                 yield self._create_event("INFO", f"End pre-built dashboard panels transfer for app {current_src_app}")
 
             if self.enable_datamodels:
                 yield self._create_event("INFO", f"Begin datamodels transfer for app {current_src_app}")
                 yield from self._datamodels(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["datamodels"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["datamodels"]
                 )
                 yield self._create_event("INFO", f"End datamodels transfer for app {current_src_app}")
 
             if self.enable_dashboards:
                 yield self._create_event("INFO", f"Begin dashboards transfer for app {current_src_app}")
                 yield from self._dashboards(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["dashboards"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["dashboards"]
                 )
                 yield self._create_event("INFO", f"End dashboards transfer for app {current_src_app}")
 
             if self.enable_savedsearches:
                 yield self._create_event("INFO", f"Begin savedsearches transfer for app {current_src_app}")
                 yield from self._savedsearches(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.ignoreViewstatesAttribute,
-                    self.disableAlertsOrReportsOnMigration, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["savedsearches"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_ignoreViewstatesAttribute,
+                    self.enable_disableAlertsOrReportsOnMigration, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["savedsearches"]
                 )
                 yield self._create_event("INFO", f"End savedsearches transfer for app {current_src_app}")
 
             if self.enable_workflowActions:
                 yield from self._create_event("INFO", f"Begin workflowActions transfer for app {current_src_app}")
                 yield from self._workflowactions(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["workflowactions"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["workflowactions"]
                 )
                 yield self._create_event("INFO", f"End workflowActions transfer for app {current_src_app}")
 
             if self.enable_sourcetypeRenaming:
                 yield from self._create_event("INFO", f"Begin sourcetypeRenaming transfer for app {current_src_app}")
                 yield from self._sourcetyperenaming(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["sourcetyperenaming"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["sourcetyperenaming"]
                 )
                 yield self._create_event("INFO", f"End sourcetypeRenaming transfer for app {current_src_app}")
 
             if self.enable_sourcetypes:
                 yield from self._create_event("INFO", f"Begin sourcetypes transfer for app {current_src_app}")
                 yield from self._sourcetypes(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["sourcetypes"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["sourcetypes"]
                 )
                 yield self._create_event("INFO", f"End sourcetypes transfer for app {current_src_app}")
 
             if self.enable_navMenu:
                 yield from self._create_event("INFO", f"Begin navMenu transfer for app {current_src_app}")
                 yield from self._navmenu(
-                    current_src_app, self.destApp, self.destOwner, self.noPrivate,
-                    self.noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
-                    self.parsed_exclude_owner, self.privateOnly, self.overrideMode,
-                    self.overrideAlwaysMode, self.results["navmenu"]
+                    current_src_app, self.destApp, self.destOwner, self.enable_noPrivate,
+                    self.enable_noDisabled, self.parsed_include_entities, self.parsed_exclude_entities, self.parsed_include_owner,
+                    self.parsed_exclude_owner, self.enable_privateOnly, self.enable_overrideMode,
+                    self.enable_overrideAlwaysMode, self.results["navmenu"]
                 )
                 yield self._create_event("INFO", f"End navMenu transfer for app {current_src_app}")
 
