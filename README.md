@@ -6,10 +6,10 @@ The **Cloud Migrations** Splunk App is designed to streamline and simplify the p
 
 ## Included Migration Tools (Custom Commands)
 
-The app introduces the following custom search commands, accessible via Splunk Search Processing Language (SPL) or through dedicated dashboards:
+The Cloud Migrations app provides a suite of powerful tools, each implemented as a custom Splunk search command. While these commands can be executed directly via SPL, each tool is primarily designed to be used through its dedicated dashboard, which serves as the main interface for users to manage and execute migration tasks.
 
 ### `transferko` (Knowledge Object Migration)
-*   **Purpose:** Facilitates the transfer of various Splunk knowledge objects from a source Splunk instance to a destination. This includes items like:
+*   **Purpose:** This tool facilitates the transfer of various Splunk knowledge objects from a source Splunk instance to a destination. This includes items like:
     *   Macros
     *   Dashboards (Views)
     *   Saved Searches (including Reports and Alerts)
@@ -22,6 +22,7 @@ The app introduces the following custom search commands, accessible via Splunk S
     *   Navigation Menus
     *   Pre-built Dashboard Panels
     *   Viewstates
+*   **Dashboard Integration:** The `transferko` command is integrated into a dedicated dashboard, providing an intuitive interface to specify source/destination details, select object types, and manage override options. This dashboard is the primary spot for users to interact with the script.
 *   **Key Features:**
     *   Preserves object ownership and sharing permissions (ACLs).
     *   Supports selective migration of specific object types or all.
@@ -29,14 +30,16 @@ The app introduces the following custom search commands, accessible via Splunk S
     *   Supports token-based or username/password authentication.
 
 ### `kvstoremigrator` (KVStore Migration)
-*   **Purpose:** Enables the migration of KVStore collection data from local JSON backup files into a Splunk KVStore collection on a target instance.
+*   **Purpose:** This tool is designed to migrate KVStore collection data from local JSON backup files into a Splunk KVStore collection on a target instance.
+*   **Dashboard Integration:** The `kvstoremigrator` command is accessible via its dedicated dashboard, allowing users to define Splunk host, token, file path, and dry run options for KVStore data transfer. This dashboard is the primary spot for users to interact with the script.
 *   **Key Features:**
     *   Processes JSON files organized by app and collection name.
     *   Supports token-based authentication for secure data transfer.
     *   Includes a dry run mode to simulate the migration process without making actual changes.
 
 ### `rolemigrator` (Role Migration)
-*   **Purpose:** Automates the transfer of Splunk user roles, including their assigned capabilities and search quotas, from a source Splunk instance to a destination.
+*   **Purpose:** This tool automates the transfer of Splunk user roles, including their assigned capabilities and search quotas, from a source Splunk instance to a destination.
+*   **Dashboard Integration:** The `rolemigrator` command is used through its dedicated dashboard, which provides an interactive interface for specifying source/destination details, selecting roles, and managing update options. This dashboard is the primary spot for users to interact with the script.
 *   **Key Features:**
     *   Migrates all roles or a specified comma-separated list of roles.
     *   Handles creation of roles on the destination.
@@ -44,22 +47,13 @@ The app introduces the following custom search commands, accessible via Splunk S
     *   Automatically handles problematic capabilities during migration, allowing the transfer to proceed.
 
 ### `lookupmigrator` (Lookup Migration)
-*   **Purpose:** Facilitates the transfer of Splunk lookup files (CSV format) between Splunk instances.
+*   **Purpose:** This tool facilitates the transfer of Splunk lookup files (CSV format) between Splunk instances.
+*   **Dashboard Integration:** The `lookupmigrator` command is primarily managed via its dedicated dashboard, enabling users to define source/destination details, specify lookup names, and manage overwrite options. This dashboard is the primary spot for users to interact with the script.
 *   **Key Features:**
     *   Supports migrating all lookups from a specified source app or individual lookup files.
     *   Option to overwrite existing lookups on the destination.
     *   Preserves lookup permissions (ACLs) and ownership.
     *   Handles creation of dummy lookup files if needed before content upload.
-
-## Dashboards
-
-The Cloud Migrations app includes dashboards to provide a user-friendly interface for managing and executing these migration commands.
-
-### Migration Commands Overview
-*   **Purpose:** This dashboard serves as the central entry point and comprehensive guide to the app's capabilities. It provides a high-level overview of each custom migration command, detailing its specific function and listing the key parameters users need to provide. This dashboard acts as a quick reference, helping users understand what each tool does and how to effectively utilize it for various migration scenarios.
-
-### Command-Specific Dashboards (Assumed)
-*   The app is designed to be complemented by dedicated dashboards (not explicitly provided in this README but implied by the command structure) that offer interactive forms and controls for executing each specific migration command (`transferko`, `kvstoremigrator`, `rolemigrator`, `lookupmigrator`). These dashboards would allow users to input parameters and initiate migration tasks directly from the Splunk UI.
 
 ## Credits / Original Script Sources
 
