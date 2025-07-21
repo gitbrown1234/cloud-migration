@@ -84,6 +84,13 @@ The Cloud Migrations app includes dashboards to provide a user-friendly interfac
     | transferko srcURL="..." destURL="..." srcApp="..." enable_all=true
     ```
 
+## Credits / Original Script Sources
+
+This Splunk App leverages and adapts code from existing open-source projects. We extend our gratitude to the original authors for their contributions:
+
+*   **Lookup Migration (`lookupmigrator`):** Adapted from [https://github.com/darrenfuller/splunk_rest_upload_lookups](https://github.com/darrenfuller/splunk_rest_upload_lookups)
+*   **Knowledge Object Migration (`transferko`):** Adapted from [https://github.com/gjanders/Splunk/blob/master/bin/transfersplunkknowledgeobjects.py](https://github.com/gjanders/Splunk/blob/master/bin/transfersplunkknowledgeobjects.py)
+
 ## Support
 
 For any issues or questions, please refer to the documentation or contact your Splunk administrator.
