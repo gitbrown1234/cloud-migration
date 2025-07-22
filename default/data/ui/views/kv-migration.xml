@@ -1,8 +1,8 @@
 <form version="1.1" theme="dark">
   <label>KVStore Migration</label>
-  <description>KVStore Migration</description>
+  <description>Migrate KVStore data between Splunk instances.</description>
 
-  <fieldset submitButton="false">
+  <fieldset submitButton="true"> <!-- Changed to true for explicit submit -->
     <!-- HTML INSTRUCTIONS FOR KVStore Migration -->
       <html>
           <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
@@ -31,17 +31,20 @@
         </div>
       </html>
 
-    <!-- ORIGINAL FIELDSET INPUTS -->
-    <input type="text" token="splunk_host">
+    <!-- INPUT FIELDS -->
+    <input type="text" token="splunk_host" id="splunkHostInput">
       <label>Splunk Host</label>
+      <default>https://localhost:8089</default>
     </input>
-    <input type="text" token="auth_token" searchWhenChanged="false">
-      <label>token</label>
+    <input type="text" token="auth_token" id="authTokenInput">
+      <label>Token</label>
+      <default>YOUR_SPLUNK_TOKEN</default>
     </input>
-    <input type="text" token="file_path">
+    <input type="text" token="file_path" id="filePathInput">
       <label>File Path</label>
+      <default>/opt/splunk/var/lib/splunk/kvstorebackup/</default>
     </input>
-    <input type="radio" token="dry_run">
+    <input type="radio" token="dry_run" id="dryRunInput">
       <label>Dry Run</label>
       <choice value="true">true</choice>
       <choice value="false">false</choice>
@@ -50,14 +53,25 @@
   </fieldset>
   <row>
     <panel>
+      <title>Migration Results</title>
       <table>
         <search>
-          <query>| kvstoremigrator splunk_host="$splunk_host$" auth_token="$auth_token$" base_path="$file_path$" all_apps=true dry_run=$dry_run$ | table *</query>
+          <query>
+            | kvstoremigrator splunk_host="$splunk_host$" auth_token="$auth_token$" base_path="$file_path$" all_apps=true dry_run=$dry_run$ | table *
+          </query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
+          <done>
+            <!-- Update tokens after submit -->
+            <set token="form.splunk_host">$splunk_host$</set>
+            <set token="form.auth_token">$auth_token$</set>
+            <set token="form.file_path">$file_path$</set>
+            <set token="form.dry_run">$dry_run$</set>
+          </done>
         </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option> <!-- Show row numbers -->
       </table>
     </panel>
   </row>

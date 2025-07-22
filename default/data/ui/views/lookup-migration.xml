@@ -1,8 +1,8 @@
 <form version="1.1" theme="dark">
   <label>Lookup Migration</label>
-  <description>Lookup Migration</description>
+  <description>Migrate lookup table files between Splunk instances.</description>
 
-  <fieldset submitButton="false">
+  <fieldset submitButton="true"> <!-- Changed to true for explicit submit -->
     <!-- HTML INSTRUCTIONS FOR LOOKUP MIGRATION -->
       <html>
           <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
@@ -35,38 +35,60 @@
         </div>
       </html>
 
-    <!-- ORIGINAL FIELDSET INPUTS -->
-    <input type="text" token="srcHost">
+    <!-- INPUT FIELDS -->
+    <input type="text" token="srcHost" id="srcHostInput">
       <label>Source Host</label>
+      <default>localhost</default>
     </input>
-    <input type="text" token="srcToken">
+    <input type="text" token="srcToken" id="srcTokenInput">
       <label>Source Token</label>
+      <default>YOUR_SOURCE_TOKEN</default>
     </input>
-    <input type="text" token="destHost">
+    <input type="text" token="destHost" id="destHostInput">
       <label>Destination Host</label>
+      <default>localhost</default>
     </input>
-    <input type="text" token="destToken">
+    <input type="text" token="destToken" id="destTokenInput">
       <label>Destination Token</label>
+      <default>YOUR_DESTINATION_TOKEN</default>
     </input>
-    <input type="text" token="srcApp">
+    <input type="text" token="srcApp" id="srcAppInput">
       <label>Source App</label>
+      <default>search</default>
     </input>
-    <input type="radio" token="overWrite">
+    <input type="radio" token="overWrite" id="overWriteInput">
       <label>Overwrite Existing</label>
       <choice value="enable_overwrite_existing=true">Yes</choice>
       <choice value="">No</choice>
+      <default></default> <!-- Default to No (empty string) -->
     </input>
   </fieldset>
   <row>
     <panel>
+      <title>Migration Results</title>
       <table>
         <search>
-          <query>| lookupmigrator src_host="$srcHost$" src_port=8089 src_token="$srcToken$" dst_host="$destHost$" src_app="$srcApp$" dst_port=8089 dst_token="$destToken$" lookup_name="all" $overWrite$   | reverse</query>
+          <query>
+          
+            | lookupmigrator src_host="$srcHost$" src_port=8089 src_token="$srcToken$" dst_host="$destHost$" src_app="$srcApp$" dst_port=8089 dst_token="$destToken$" lookup_name="all" $overWrite$ | reverse
+          
+          </query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
+          <done>
+            <!-- Update tokens after submit -->
+            <set token="form.srcHost">$srcHost$</set>
+            <set token="form.srcToken">$srcToken$</set>
+            <set token="form.destHost">$destHost$</set>
+            <set token="form.destToken">$destToken$</set>
+            <set token="form.srcApp">$srcApp$</set>
+            <set token="form.overWrite">$overWrite$</set>
+          </done>
         </search>
         <option name="count">100</option>
         <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option> <!-- Progress bar for search -->
+        <option name="rowNumbers">true</option> <!-- Show row numbers -->
       </table>
     </panel>
   </row>

@@ -1,7 +1,7 @@
 <form version="1.1" theme="dark">
   <label>Role Migration</label>
-  <description>Role Migration</description>
-  <fieldset submitButton="false">
+  <description>Migrate user roles between Splunk instances.</description>
+  <fieldset submitButton="true"> <!-- Changed to true for explicit submit -->
     <!-- HTML INSTRUCTIONS FOR ROLE MIGRATION -->
       <html>
           <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
@@ -30,35 +30,52 @@
         </div>
       </html>
 
-    <!-- ORIGINAL FIELDSET INPUTS -->
-    <input type="text" token="srcHost">
+    <!-- INPUT FIELDS -->
+    <input type="text" token="srcHost" id="srcHostInput">
       <label>Source Host</label>
+      <default>https://localhost:8089</default>
     </input>
-    <input type="text" token="destHost">
+    <input type="text" token="destHost" id="destHostInput">
       <label>Destination Host</label>
+      <default>https://localhost:8089</default>
     </input>
-    <input type="text" token="srcToken">
+    <input type="text" token="srcToken" id="srcTokenInput">
       <label>Source Token</label>
+      <default>YOUR_SOURCE_TOKEN</default>
     </input>
-    <input type="text" token="destToken">
+    <input type="text" token="destToken" id="destTokenInput">
       <label>Destination Token</label>
+      <default>YOUR_DESTINATION_TOKEN</default>
     </input>
-    <input type="radio" token="updateExists">
+    <input type="radio" token="updateExists" id="updateExistsInput">
       <label>Update If Exists</label>
       <choice value="enable_update_if_exists=true">True</choice>
       <choice value="">False</choice>
+      <default></default> <!-- Default to False (empty string) -->
     </input>
   </fieldset>
   <row>
     <panel>
+      <title>Migration Results</title>
       <table>
         <search>
-          <query>| rolemigrator srcHost="$srcHost$" destHost="$destHost$" source_token="$srcToken$" destination_token="$destToken$" enable_all=true $updateExists$ | reverse</query>
+          <query>
+            | rolemigrator srcHost="$srcHost$" destHost="$destHost$" source_token="$srcToken$" destination_token="$destToken$" enable_all=true $updateExists$ | reverse
+          </query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
+          <done>
+            <!-- Update tokens after submit -->
+            <set token="form.srcHost">$srcHost$</set>
+            <set token="form.destHost">$destHost$</set>
+            <set token="form.srcToken">$srcToken$</set>
+            <set token="form.destToken">$destToken$</set>
+            <set token="form.updateExists">$updateExists$</set>
+          </done>
         </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option> <!-- Show row numbers -->
       </table>
     </panel>
   </row>

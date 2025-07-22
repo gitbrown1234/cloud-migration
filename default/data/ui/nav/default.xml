@@ -4,4 +4,5 @@
   <view name="kv-migration" label="KVStore Migration"/>
   <view name="role-migration" label="Role Migration" />
   <view name="lookup-migration" label="Lookup Migration" />
+  <view name="migration-validator" label="Migration Validation" />
 </nav>

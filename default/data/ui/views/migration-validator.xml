@@ -1,0 +1,106 @@
+<form version="1.1" theme="dark">
+  <label>Migration Validator</label>
+  <description>Compare Knowledge Objects, KVStore, Lookups, or Roles between Splunk instances.</description>
+  <fieldset submitButton="true">
+    <html>
+          <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+            <h3 style="font-size: 1.2em; color: #F0F0F0; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">Dashboard Fields:</h3>
+            <ul style="list-style-type: disc; margin-left: 25px; padding-left: 0; color: #D0D0D0;">
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source Host / Destination Host:</strong>
+            <br/>
+                Enter the full hostname or IP address of the Splunk instance. The script assumes HTTPS and port 8089.<br/>
+                Example: <code style="font-family: monospace; background-color: #333; padding: 2px 4px; border-radius: 3px; color: #65A637;">your-splunk-host.example.com</code>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source Token / Destination Token:</strong>
+            <br/>
+                Provide a valid Splunk authentication token (Bearer token) for the respective instance.<br/>
+                Ensure the token has sufficient read permissions for the data you wish to validate.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Validation Type:</strong>
+            <br/>
+                Select the type of Splunk objects you want to compare:<br/>
+                <ul style="list-style-type: circle; margin-left: 20px; padding-left: 0;">
+                    <li style="margin-bottom: 4px;">
+                <strong style="color: #65A637;">Knowledge Objects (KO):</strong> Compares saved searches, dashboards, macros, etc.</li>
+                    <li style="margin-bottom: 4px;">
+                <strong style="color: #65A637;">KVStore Collections:</strong> Compares KVStore collection definitions.</li>
+                    <li style="margin-bottom: 4px;">
+                <strong style="color: #65A637;">Lookup Files:</strong> Compares lookup table file definitions (e.g., CSV lookups).</li>
+                    <li style="margin-bottom: 4px;">
+                <strong style="color: #65A637;">Roles:</strong> Compares Splunk user roles (global objects).</li>
+                </ul>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Source App:</strong>
+            <br/>
+                Specify the name of the Splunk app on the source instance where the objects reside.<br/>
+                This field is required for 'Knowledge Objects', 'KVStore Collections', and 'Lookup Files' validation types. It is not used for 'Roles'.
+              </li>
+            </ul>
+        </div>
+      </html>
+    <input type="text" token="srcHost" id="srcHostInput">
+      <label>Source Host</label>
+      <default>localhost</default>
+    </input>
+    <input type="text" token="srcToken" id="srcTokenInput">
+      <label>Source Token</label>
+      <default>YOUR_SOURCE_TOKEN</default>
+    </input>
+    <input type="text" token="destHost" id="destHostInput">
+      <label>Destination Host</label>
+      <default>localhost</default>
+    </input>
+    <input type="text" token="destToken" id="destTokenInput">
+      <label>Destination Token</label>
+      <default>YOUR_DESTINATION_TOKEN</default>
+    </input>
+    <input type="dropdown" token="validationType" id="validationTypeDropdown">
+      <label>Validation Type</label>
+      <choice value="ko">Knowledge Objects (KO)</choice>
+      <choice value="kvstore">KVStore Collections</choice>
+      <choice value="lookups">Lookup Files</choice>
+      <choice value="roles">Roles</choice>
+      <default>ko</default>
+    </input>
+    <input type="text" token="srcApp" id="srcAppInput">
+      <label>Source App</label>
+      <default>search</default>
+      <depends>
+        <condition value="ko">validationType</condition>
+        <condition value="kvstore">validationType</condition>
+        <condition value="lookups">validationType</condition>
+      </depends>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Validation Results</title>
+      <table>
+        <search>
+          <done>
+            <!-- Conditionally set srcApp_param based on validationType -->
+            <condition match="$validationType$ == &quot;roles&quot;">
+              <set token="srcApp_param"></set>
+            </condition>
+            <condition>
+              <set token="srcApp_param">srcApp="$srcApp$"</set>
+            </condition>
+          </done>
+          <query>| migrationvalidator srcHost="$srcHost$" destHost="$destHost$" srcToken="$srcToken$" destToken="$destToken$" type="$validationType$" srcApp="$srcApp$" | rex "Validation counts for (?&lt;knowledge_object_type&gt;[^:]+): Source App '(?&lt;source_app&gt;[^']+)' has (?&lt;source_count&gt;[^,]+), Destination App '(?&lt;app&gt;[^']+)' has (?&lt;dest_count&gt;[^.]+)\."
+| where app!="" AND knowledge_object_type!="" AND source_count!="" AND dest_count!=""
+| table app knowledge_object_type source_count dest_count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">100</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

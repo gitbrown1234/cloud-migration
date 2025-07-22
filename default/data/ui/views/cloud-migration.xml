@@ -1,6 +1,6 @@
 <dashboard version="1.1">
   <label>Splunk Migration Commands Overview</label>
-  <description>A high-level overview of custom commands for migrating Splunk knowledge objects, KVStore data, roles, and lookups.</description>
+  <description>A high-level overview of custom commands for migrating Splunk knowledge objects, KVStore data, roles, and lookups, and their validation counterparts.</description>
   <row>
     <panel>
       <html>
@@ -69,32 +69,27 @@
           }
           .splunk-mig-cardgrid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr); /* Default 5 columns */
             column-gap: 18px;
             row-gap: 20px;
-            max-width: 1400px;
+            max-width: 100%; /* Allow grid to expand to full panel width */
             margin: 0 auto;
             justify-items: center;
             align-items: stretch;
             padding: 0 12px;
             box-sizing: border-box;
           }
-          @media (max-width: 1300px) {
-            .splunk-mig-cardgrid { grid-template-columns: repeat(2, 1fr);}
-          }
-          @media (max-width: 900px) {
-            .splunk-mig-cardgrid { grid-template-columns: 1fr;}
-          }
+          /* Card Sizing and Padding */
           .splunk-mig-card {
             background: #fff;
             border-radius: 14px;
             border: 1.5px solid var(--splunk-border);
-            min-width: 210px;
-            max-width: 340px;
+            min-width: 180px;
+            /* Removed max-width to allow cards to stretch as wide as possible */
             width: 100%;
-            min-height: 296px;
+            min-height: 320px; /* Increased min-height for more vertical space */
             box-sizing: border-box;
-            padding: 17px 15px 14px 15px;
+            padding: 15px 12px 12px 12px; /* Adjusted padding */
             position: relative;
             box-shadow: 0 2px 6px 0 rgba(0,125,184,0.07), 0 1px 3px #65A63711;
             overflow: hidden;
@@ -217,20 +212,32 @@
           .splunk-mig-card:hover .splunk-mig-opts li::before {
             color: var(--splunk-green);
           }
-          @media (max-width: 1300px) {
-            .splunk-mig-card { min-width: 180px; max-width: 420px; }
+          /* Media Queries for Responsiveness */
+          @media (max-width: 1800px) { /* Adjust for 4 columns */
+            .splunk-mig-cardgrid { grid-template-columns: repeat(4, 1fr); }
           }
+          @media (max-width: 1400px) { /* Adjust for 3 columns */
+            .splunk-mig-cardgrid { grid-template-columns: repeat(3, 1fr); }
+          }
+          @media (max-width: 1000px) { /* Adjust for 2 columns */
+            .splunk-mig-cardgrid { grid-template-columns: repeat(2, 1fr); }
+          }
+          @media (max-width: 700px) { /* Adjust for 1 column */
+            .splunk-mig-cardgrid { grid-template-columns: 1fr; }
+            /* Adjustments for single column layout */
+            .splunk-mig-card { min-width: 0px; max-width: 600px; padding: 10px 6px 8px 7px;}
+            .splunk-mig-title { font-size: 0.91em;}
+            .splunk-mig-desc { font-size: 0.91em;}
+            .splunk-mig-chip { font-size: 0.89em;}
+            .splunk-mig-cardgrid { padding: 0 2px;}
+          }
+          /* General smaller screen adjustments */
           @media (max-width: 1100px) {
             .splunk-mig-header-row { font-size: 1.06em;}
           }
           @media (max-width: 900px) {
             .splunk-mig-header-row { font-size: 1em;}
             .splunk-mig-header-wrap { padding-top: 7px;}
-            .splunk-mig-card { min-width: 0px; max-width: 600px; padding: 10px 6px 8px 7px;}
-            .splunk-mig-title { font-size: 0.91em;}
-            .splunk-mig-desc { font-size: 0.91em;}
-            .splunk-mig-chip { font-size: 0.89em;}
-            .splunk-mig-cardgrid { padding: 0 2px;}
           }
         </style>
         <div class="splunk-mig-root">
@@ -240,10 +247,10 @@
               <span class="splunk-mig-rocket">&#128640;</span>
             </div>
             <div class="splunk-mig-subhead">
-              Command overview for migrating knowledge objects, KVStore data, roles, and lookups between Splunk instances.
+              Command overview for migrating knowledge objects, KVStore data, roles, and lookups between Splunk instances, and their validation.
             </div>
           </div>
-          <svg class="splunk-mig-wave" viewBox="0 0 1440 36" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path fill="#EAF4FB" d="M0,16 C400,36 1040,0 1440,20 L1440,36 L0,36 Z"></path></svg>
+          <svg class="splunk-mig-wave" viewBox="0 0 1440 36" fill="none" xmlns="http://www.w3.org/2005/svg" preserveAspectRatio="none"><path fill="#EAF4FB" d="M0,16 C400,36 1040,0 1440,20 L1440,36 L0,36 Z"></path></svg>
           <div class="splunk-mig-cardgrid">
 
             <!-- Knowledge Object Migration -->
@@ -306,7 +313,7 @@
                 <li><strong>Source Host:</strong> URL of the source Splunk instance</li>
                 <li><strong>Destination Host:</strong> URL of the target Splunk instance</li>
                 <li><strong>Source Token:</strong> Auth token for source</li>
-                <li><strong>Destination Token:</strong> Auth token for destination</li>
+                <li><strong>Destination Token:</strong>Auth token for destination</li>
                 <li><strong>Update If Exists:</strong> Update roles on destination if already present</li>
                 <li><strong>Migrate All Roles / Specific Roles:</strong> All or comma-separated list</li>
               </ul>
@@ -332,6 +339,28 @@
                 <li><strong>Source App:</strong> App on source to migrate from</li>
                 <li><strong>Lookup Name:</strong> Lookup file name (e.g., <span class="splunk-mig-chip">my_lookup.csv</span>) or "all"</li>
                 <li><strong>Overwrite Existing:</strong> Overwrite lookups on destination</li>
+              </ul>
+            </div>
+
+            <!-- Migration Validator -->
+            <div class="splunk-mig-card" tabindex="0">
+              <div class="splunk-mig-title">
+                <span class="splunk-mig-icon">&#128269;</span>
+                Migration Validator
+                <span class="splunk-mig-chip">migrationvalidator</span>
+              </div>
+              <div class="splunk-mig-desc">
+                Compares counts and lists of Splunk knowledge objects, KVStore collections, lookups, or roles between a source and destination instance.
+              </div>
+              <hr class="splunk-mig-sep" />
+              <div class="splunk-mig-opts-title">Key Dashboard Options</div>
+              <ul class="splunk-mig-opts">
+                <li><strong>Source Host:</strong> Hostname/IP of source Splunk instance</li>
+                <li><strong>Destination Host:</strong> Hostname/IP of target Splunk instance</li>
+                <li><strong>Source Token:</strong> Auth token for source</li>
+                <li><strong>Destination Token:</strong> Auth token for destination</li>
+                <li><strong>Validation Type:</strong> Choose 'ko', 'kvstore', 'lookups', or 'roles'</li>
+                <li><strong>Source App:</strong> App on source (required for KO, KVStore, Lookups)</li>
               </ul>
             </div>
 

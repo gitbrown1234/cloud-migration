@@ -1,74 +1,108 @@
 <form version="1.1" theme="dark">
   <label>Knowledge Object Migration</label>
-  <description>Knowledge Object Migration</description>
-
-  <fieldset submitButton="false">
-    <!-- HTML INSTRUCTIONS: Using input type="html" to place it at the top of the form inputs -->
-      <html>
+  <description>Migrate Knowledge Objects between Splunk instances.</description>
+  <fieldset submitButton="true">
+    <html>
           <div style="background-color: #2a2a2a; border-radius: 5px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
             <h3 style="font-size: 1.2em; color: #F0F0F0; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">Dashboard Fields:</h3>
             <ul style="list-style-type: disc; margin-left: 25px; padding-left: 0; color: #D0D0D0;">
               <li style="margin-bottom: 8px;">
-                <strong style="color: #65A637;">Source Host / Destination Host:</strong><br/>
+                <strong style="color: #65A637;">Source Host / Destination Host:</strong>
+            <br/>
                 Enter the full URL of the Splunk instance, including the port.<br/>
                 Example: <code style="font-family: monospace; background-color: #333; padding: 2px 4px; border-radius: 3px; color: #65A637;">https://your-splunk-host:8089</code>
               </li>
               <li style="margin-bottom: 8px;">
-                <strong style="color: #65A637;">Source Token / Destination Token:</strong><br/>
+                <strong style="color: #65A637;">Source Token / Destination Token:</strong>
+            <br/>
                 Provide the Splunk authentication token for the respective instance.<br/>
                 Alternatively, fields for Username and Password may be available for authentication.
               </li>
               <li style="margin-bottom: 8px;">
-                <strong style="color: #65A637;">Source App:</strong><br/>
+                <strong style="color: #65A637;">Source App:</strong>
+            <br/>
                 Specify the exact name of the Splunk app on the source instance from which objects will be migrated.
               </li>
               <li style="margin-bottom: 8px;">
-                <strong style="color: #65A637;">Override Mode:</strong><br/>
+                <strong style="color: #65A637;">Override Mode:</strong>
+            <br/>
                 Select how existing objects on the destination should be handled if a conflict is detected.
                 <ul style="list-style-type: circle; margin-left: 20px; margin-top: 5px; color: #D0D0D0;">
-                  <li style="margin-bottom: 3px;"><strong>None:</strong> Skip if object already exists.</li>
-                  <li style="margin-bottom: 3px;"><strong>Override:</strong> Overwrite only if the source object has a newer modification timestamp.</li>
-                  <li style="margin-bottom: 3px;"><strong>Always Override:</strong> Any existing object on the destination will be overwritten by the source object, regardless of timestamps.</li>
+                  <li style="margin-bottom: 3px;">
+                <strong>None:</strong> Skip if object already exists.</li>
+                  <li style="margin-bottom: 3px;">
+                <strong>Override:</strong> Overwrite only if the source object has a newer modification timestamp.</li>
+                  <li style="margin-bottom: 3px;">
+                <strong>Always Override:</strong> Any existing object on the destination will be overwritten by the source object, regardless of timestamps.</li>
                 </ul>
               </li>
               <li style="margin-bottom: 8px;">
-                <strong style="color: #65A637;">Which Objects?:</strong><br/>
+                <strong style="color: #65A637;">Which Objects?:</strong>
+            <br/>
                 Choose specific types of knowledge objects to migrate from the provided dropdown list (e.g., Macros, Dashboards, Saved Searches, Event Types).<br/>
                 Select "All" to include all supported knowledge object types in the migration.
               </li>
               <li style="margin-bottom: 8px;">
-                <strong style="color: #65A637;">Migrate Private Objects:</strong><br/>
+                <strong style="color: #65A637;">Migrate Private Objects:</strong>
+            <br/>
                 Select "Yes" to include user-level (private) objects in the migration.<br/>
                 Select "No" to exclude user-level (private) objects from the migration.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Enable Dry Run:</strong>
+            <br/>
+                Select "True" to simulate the migration process without actually making any changes on the destination Splunk instance.<br/>
+                Select "False" to perform the actual migration.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Migrate Disabled:</strong>
+            <br/>
+                Select "True" to include objects that are currently disabled in Splunk.<br/>
+                Select "False" to skip objects that are disabled in Splunk.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Filter Knowledge Objects:</strong>
+            <br/>
+                Select "Include List" to migrate only objects specified in "Filtered Object List".<br/>
+                Select "Exclude List" to migrate all objects EXCEPT those specified in "Filtered Object List".<br/>
+                Select "No Filter" to migrate all objects of the selected type(s) without name-based filtering.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong style="color: #65A637;">Filtered Object List:</strong>
+            <br/>
+                If "Filter Knowledge Objects" is "Include List" or "Exclude List", enter a comma-separated list of object names.
               </li>
             </ul>
         </div>
       </html>
-    
-
-    <!-- FORM INPUTS -->
-    <input type="text" token="srcHost">
+    <input type="text" token="srcHost" id="srcHostInput">
       <label>Source Host</label>
+      <default>https://localhost:8089</default>
     </input>
-    <input type="text" token="destHost">
+    <input type="text" token="destHost" id="destHostInput">
       <label>Destination Host</label>
+      <default>https://localhost:8089</default>
     </input>
-    <input type="text" token="srcToken">
+    <input type="text" token="srcToken" id="srcTokenInput">
       <label>Source Token</label>
+      <default>YOUR_SOURCE_TOKEN</default>
     </input>
-    <input type="text" token="destToken">
+    <input type="text" token="destToken" id="destTokenInput">
       <label>Destination Token</label>
+      <default>YOUR_DESTINATION_TOKEN</default>
     </input>
-    <input type="text" token="srcApp">
+    <input type="text" token="srcApp" id="srcAppInput">
       <label>Source App</label>
+      <default>search</default>
     </input>
-    <input type="radio" token="overrideMode">
+    <input type="radio" token="overrideMode" id="overrideModeInput">
       <label>Override Mode</label>
       <choice value="">None</choice>
       <choice value="enable_overrideMode=true">Override</choice>
       <choice value="enable_overrideAlwaysMode=true">Always Override</choice>
+      <default></default>
     </input>
-    <input type="dropdown" token="koType">
+    <input type="dropdown" token="koType" id="koTypeInput">
       <label>Which Objects?</label>
       <choice value="all=true">All</choice>
       <choice value="enable_macros=true">Macros</choice>
@@ -91,26 +125,81 @@
       <choice value="enable_collections=true">Collections</choice>
       <choice value="enable_times=true">Times</choice>
       <choice value="enable_panels=true">Panels</choice>
+      <default>all=true</default>
     </input>
-    <input type="radio" token="privateMode">
+    <input type="radio" token="privateMode" id="privateModeInput">
       <label>Migrate Private Objects</label>
-      <choice value="enable_noPrivate=true">Yes</choice>
-      <choice value="enable_noPrivate=false">No</choice>
+      <choice value="enable_noPrivate=false">Yes</choice>
+      <choice value="enable_noPrivate=true">No</choice>
+      <default>enable_noPrivate=true</default>
+      <!-- Default to No (exclude private) -->
+    </input>
+    <input type="radio" token="dryRun" id="dryRunInput">
+      <label>Enable Dry Run</label>
+      <choice value="enable_dry_run=true">True</choice>
+      <choice value="enable_dry_run=false">False</choice>
+      <default>enable_dry_run=true</default>
+    </input>
+    <input type="radio" token="migrateDisabled" id="migrateDisabledInput">
+      <label>Migrate Disabled</label>
+      <choice value="">True</choice>
+      <!-- Empty value means no enable_noDisabled=true, so disabled are included -->
+      <choice value="enable_noDisabled=true">False</choice>
+      <default></default>
+      <!-- Default to True (include disabled) -->
+    </input>
+    <input type="radio" token="filterKO" id="filterKOInput">
+      <label>Filter Knowledge Objects</label>
+      <choice value="includeEntities=">Include List</choice>
+      <choice value="excludeEntities=">Exclude List</choice>
+      <choice value="">No Filter</choice>
+      <default></default>
+    </input>
+    <input type="text" token="filteredKO" id="filteredKOInput">
+      <label>Filtered Object List (comma-separated)</label>
+      <default></default>
+      <depends>
+        <condition value="includeEntities=">filterKO</condition>
+        <condition value="excludeEntities=">filterKO</condition>
+      </depends>
+    </input>
+    <input type="text" token="filter_param" depends="$alwaysHide$">
+      <default></default>
+      <change>
+        <eval token="filter_param">if("$filterKO$"=="" OR "$filteredKO$"=="", "", "$filterKO$"+"\""+"$filteredKO$"+"\"")</eval>
+      </change>
     </input>
   </fieldset>
-
-  <!-- ROW for search results (outside fieldset) -->
   <row>
     <panel>
+      <title>Migration Results</title>
       <table>
         <search>
-          <query>| transferko srcURL="$srcHost$" destURL="$destHost$" srcToken="$srcToken$" destToken="$destToken$" srcApp="$srcApp$" srcAuthtype="token" destAuthtype="token" $overrideMode$ $privateMode$ $koType$ | reverse</query>
+          <done>
+            <!-- Update tokens after submit -->
+            <set token="form.srcHost">$srcHost$</set>
+            <set token="form.destHost">$destHost$</set>
+            <set token="form.srcToken">$srcToken$</set>
+            <set token="form.destToken">$destToken$</set>
+            <set token="form.srcApp">$srcApp$</set>
+            <set token="form.overrideMode">$overrideMode$</set>
+            <set token="form.koType">$koType$</set>
+            <set token="form.privateMode">$privateMode$</set>
+            <set token="form.dryRun">$dryRun$</set>
+            <set token="form.migrateDisabled">$migrateDisabled$</set>
+            <set token="form.filterKO">$filterKO$</set>
+            <set token="form.filteredKO">$filteredKO$</set>
+            <!-- Also update the hidden filter_param token explicitly on submit -->
+            <eval token="form.filter_param">if("$filterKO$"=="" OR "$filteredKO$"=="", "", "$filterKO$"+"\""+"$filteredKO$"+"\"")</eval>
+          </done>
+          <query>| transferko srcURL="$srcHost$" destURL="$destHost$" srcToken="$srcToken$" destToken="$destToken$" srcApp="$srcApp$" srcAuthtype="token" destAuthtype="token" $overrideMode$ $privateMode$ $koType$ $dryRun$ $migrateDisabled$ $filterKO$$filteredKO$ | reverse</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="count">100</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option>
       </table>
     </panel>
   </row>
