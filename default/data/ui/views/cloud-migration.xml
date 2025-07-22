@@ -5,6 +5,7 @@
     <panel>
       <html>
         <style>
+          <![CDATA[ /* Start CDATA section */
           /* Splunk Style Guide Colors */
           :root {
             --splunk-green: #65A637;
@@ -80,12 +81,23 @@
             box-sizing: border-box;
           }
           /* Card Sizing and Padding */
+          .splunk-mig-card-link { /* New class for the <a> tag */
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Inherit text color */
+            display: block; /* Make the link fill the card area */
+            border-radius: 14px; /* Match card border-radius */
+            transition: box-shadow 0.16s, border-color 0.13s, transform 0.17s;
+            outline: none; /* Remove default focus outline, will use custom one */
+          }
+          .splunk-mig-card-link:focus {
+            outline: 2px solid var(--splunk-blue); /* Custom focus outline */
+            outline-offset: 2px;
+          }
           .splunk-mig-card {
             background: #fff;
             border-radius: 14px;
             border: 1.5px solid var(--splunk-border);
             min-width: 180px;
-            /* Removed max-width to allow cards to stretch as wide as possible */
             width: 100%;
             min-height: 320px; /* Increased min-height for more vertical space */
             box-sizing: border-box;
@@ -93,18 +105,14 @@
             position: relative;
             box-shadow: 0 2px 6px 0 rgba(0,125,184,0.07), 0 1px 3px #65A63711;
             overflow: hidden;
-            transition: box-shadow 0.16s, border-color 0.13s, transform 0.17s;
             margin: 0;
+            /* Remove transitions and hover effects from here, move to .splunk-mig-card-link */
           }
-          .splunk-mig-card:hover {
+          .splunk-mig-card-link:hover .splunk-mig-card { /* Apply hover to the card through the link */
             box-shadow: 0 8px 22px 0 rgba(0,125,184,0.15), 0 4px 14px #65A63718;
             border-color: var(--splunk-green);
             transform: translateY(-3px) scale(1.012);
             background: #fcfcfc;
-          }
-          .splunk-mig-card:focus-within {
-            outline: 2px solid var(--splunk-blue);
-            outline-offset: 2px;
           }
           .splunk-mig-title {
             color: var(--splunk-blue);
@@ -127,7 +135,7 @@
             filter: drop-shadow(0 1px 0px #007DB822);
             transition: color 0.15s;
           }
-          .splunk-mig-card:hover .splunk-mig-icon {
+          .splunk-mig-card-link:hover .splunk-mig-icon { /* Apply hover to icon through the link */
             color: var(--splunk-blue);
           }
           .splunk-mig-chip {
@@ -145,7 +153,7 @@
             letter-spacing: 0.02em;
             transition: background 0.17s, color 0.13s, border 0.17s;
           }
-          .splunk-mig-card:hover .splunk-mig-chip {
+          .splunk-mig-card-link:hover .splunk-mig-chip { /* Apply hover to chip through the link */
             background: var(--splunk-chip-blue);
             color: var(--splunk-blue);
             border: 1.5px solid var(--splunk-blue);
@@ -205,11 +213,11 @@
             font-weight: 600;
             letter-spacing: 0.01em;
           }
-          .splunk-mig-card:hover .splunk-mig-opts li {
+          .splunk-mig-card-link:hover .splunk-mig-opts li { /* Apply hover to list item through the link */
             border-color: var(--splunk-green);
             background: var(--splunk-chip-green);
           }
-          .splunk-mig-card:hover .splunk-mig-opts li::before {
+          .splunk-mig-card-link:hover .splunk-mig-opts li::before { /* Apply hover to list item bullet through the link */
             color: var(--splunk-green);
           }
           /* Media Queries for Responsiveness */
@@ -239,6 +247,7 @@
             .splunk-mig-header-row { font-size: 1em;}
             .splunk-mig-header-wrap { padding-top: 7px;}
           }
+          ]]> /* End CDATA section */
         </style>
         <div class="splunk-mig-root">
           <div class="splunk-mig-header-wrap">
@@ -254,115 +263,130 @@
           <div class="splunk-mig-cardgrid">
 
             <!-- Knowledge Object Migration -->
-            <div class="splunk-mig-card" tabindex="0">
-              <div class="splunk-mig-title">
-                <span class="splunk-mig-icon">&#128279;</span>
-                Knowledge Object Migration
-                <span class="splunk-mig-chip">transferko</span>
+            <!-- IMPORTANT: Replace 'YOUR_SPLUNK_APP_NAME' with the actual name of your Splunk app -->
+            <a href="/app/cloud-migration/ko-migration" class="splunk-mig-card-link" target="_self" tabindex="0">
+              <div class="splunk-mig-card">
+                <div class="splunk-mig-title">
+                  <span class="splunk-mig-icon">&#128279;</span>
+                  Knowledge Object Migration
+                  <span class="splunk-mig-chip">transferko</span>
+                </div>
+                <div class="splunk-mig-desc">
+                  Move Splunk knowledge objects (macros, dashboards, saved searches, event types, data models, etc.) between instances, preserving ownership and sharing settings.
+                </div>
+                <hr class="splunk-mig-sep" />
+                <div class="splunk-mig-opts-title">Key Dashboard Options</div>
+                <ul class="splunk-mig-opts">
+                  <li><strong>Source Host:</strong> URL of the source Splunk instance</li>
+                  <li><strong>Destination Host:</strong> URL of the target Splunk instance</li>
+                  <li><strong>Source Token:</strong> Auth token for source (or Username/Password)</li>
+                  <li><strong>Destination Token:</strong> Auth token for destination (or Username/Password)</li>
+                  <li><strong>Source App:</strong> App on source to migrate from</li>
+                  <li><strong>Override Mode:</strong> Handling for existing objects (None, Override if Newer, Always Override)</li>
+                  <li><strong>Which Objects?:</strong> Choose knowledge object types</li>
+                  <li><strong>Migrate Private Objects:</strong> Include/exclude user-level objects</li>
+                </ul>
               </div>
-              <div class="splunk-mig-desc">
-                Move Splunk knowledge objects (macros, dashboards, saved searches, event types, data models, etc.) between instances, preserving ownership and sharing settings.
-              </div>
-              <hr class="splunk-mig-sep" />
-              <div class="splunk-mig-opts-title">Key Dashboard Options</div>
-              <ul class="splunk-mig-opts">
-                <li><strong>Source Host:</strong> URL of the source Splunk instance</li>
-                <li><strong>Destination Host:</strong> URL of the target Splunk instance</li>
-                <li><strong>Source Token:</strong> Auth token for source (or Username/Password)</li>
-                <li><strong>Destination Token:</strong> Auth token for destination (or Username/Password)</li>
-                <li><strong>Source App:</strong> App on source to migrate from</li>
-                <li><strong>Override Mode:</strong> Handling for existing objects (None, Override if Newer, Always Override)</li>
-                <li><strong>Which Objects?:</strong> Choose knowledge object types</li>
-                <li><strong>Migrate Private Objects:</strong> Include/exclude user-level objects</li>
-              </ul>
-            </div>
+            </a>
 
             <!-- KVStore Migration -->
-            <div class="splunk-mig-card" tabindex="0">
-              <div class="splunk-mig-title">
-                <span class="splunk-mig-icon">&#128190;</span>
-                KVStore Migration
-                <span class="splunk-mig-chip">kvstoremigrator</span>
+            <!-- IMPORTANT: Replace 'YOUR_SPLUNK_APP_NAME' with the actual name of your Splunk app -->
+            <a href="/app/cloud-migration/kv-migration" class="splunk-mig-card-link" target="_self" tabindex="0">
+              <div class="splunk-mig-card">
+                <div class="splunk-mig-title">
+                  <span class="splunk-mig-icon">&#128190;</span>
+                  KVStore Migration
+                  <span class="splunk-mig-chip">kvstoremigrator</span>
+                </div>
+                <div class="splunk-mig-desc">
+                  Restore or transfer KVStore data from local JSON backups outside of standard Splunk backup/restore.
+                </div>
+                <hr class="splunk-mig-sep" />
+                <div class="splunk-mig-opts-title">Key Dashboard Options</div>
+                <ul class="splunk-mig-opts">
+                  <li><strong>Splunk Host:</strong> URL of Splunk instance to post KVStore data</li>
+                  <li><strong>Token:</strong> Auth token for Splunk instance</li>
+                  <li><strong>File Path:</strong> Directory on server with KVStore JSON backups</li>
+                  <li><strong>Dry Run:</strong> Simulate migration (no data posted)</li>
+                </ul>
               </div>
-              <div class="splunk-mig-desc">
-                Restore or transfer KVStore data from local JSON backups outside of standard Splunk backup/restore.
-              </div>
-              <hr class="splunk-mig-sep" />
-              <div class="splunk-mig-opts-title">Key Dashboard Options</div>
-              <ul class="splunk-mig-opts">
-                <li><strong>Splunk Host:</strong> URL of Splunk instance to post KVStore data</li>
-                <li><strong>Token:</strong> Auth token for Splunk instance</li>
-                <li><strong>File Path:</strong> Directory on server with KVStore JSON backups</li>
-                <li><strong>Dry Run:</strong> Simulate migration (no data posted)</li>
-              </ul>
-            </div>
+            </a>
 
             <!-- Role Migration -->
-            <div class="splunk-mig-card" tabindex="0">
-              <div class="splunk-mig-title">
-                <span class="splunk-mig-icon">&#128100;</span>
-                Role Migration
-                <span class="splunk-mig-chip">rolemigrator</span>
+            <!-- IMPORTANT: Replace 'YOUR_SPLUNK_APP_NAME' with the actual name of your Splunk app -->
+            <a href="/app/cloud-migration/role-migration" class="splunk-mig-card-link" target="_self" tabindex="0">
+              <div class="splunk-mig-card">
+                <div class="splunk-mig-title">
+                  <span class="splunk-mig-icon">&#128100;</span>
+                  Role Migration
+                  <span class="splunk-mig-chip">rolemigrator</span>
+                </div>
+                <div class="splunk-mig-desc">
+                  Transfer user roles, capabilities, and quotas between Splunk instances. Supports all roles or a specific list.
+                </div>
+                <hr class="splunk-mig-sep" />
+                <div class="splunk-mig-opts-title">Key Dashboard Options</div>
+                <ul class="splunk-mig-opts">
+                  <li><strong>Source Host:</strong> URL of the source Splunk instance</li>
+                  <li><strong>Destination Host:</strong> URL of the target Splunk instance</li>
+                  <li><strong>Source Token:</strong> Auth token for source</li>
+                  <li><strong>Destination Token:</strong>Auth token for destination</li>
+                  <li><strong>Update If Exists:</strong> Update roles on destination if already present</li>
+                  <li><strong>Migrate All Roles / Specific Roles:</strong> All or comma-separated list</li>
+                </ul>
               </div>
-              <div class="splunk-mig-desc">
-                Transfer user roles, capabilities, and quotas between Splunk instances. Supports all roles or a specific list.
-              </div>
-              <hr class="splunk-mig-sep" />
-              <div class="splunk-mig-opts-title">Key Dashboard Options</div>
-              <ul class="splunk-mig-opts">
-                <li><strong>Source Host:</strong> URL of the source Splunk instance</li>
-                <li><strong>Destination Host:</strong> URL of the target Splunk instance</li>
-                <li><strong>Source Token:</strong> Auth token for source</li>
-                <li><strong>Destination Token:</strong>Auth token for destination</li>
-                <li><strong>Update If Exists:</strong> Update roles on destination if already present</li>
-                <li><strong>Migrate All Roles / Specific Roles:</strong> All or comma-separated list</li>
-              </ul>
-            </div>
+            </a>
 
             <!-- Lookup Migration -->
-            <div class="splunk-mig-card" tabindex="0">
-              <div class="splunk-mig-title">
-                <span class="splunk-mig-icon">&#128196;</span>
-                Lookup Migration
-                <span class="splunk-mig-chip">lookupmigrator</span>
+            <!-- IMPORTANT: Replace 'YOUR_SPLUNK_APP_NAME' with the actual name of your Splunk app -->
+            <a href="/app/cloud-migration/lookup-migration" class="splunk-mig-card-link" target="_self" tabindex="0">
+              <div class="splunk-mig-card">
+                <div class="splunk-mig-title">
+                  <span class="splunk-mig-icon">&#128196;</span>
+                  Lookup Migration
+                  <span class="splunk-mig-chip">lookupmigrator</span>
+                </div>
+                <div class="splunk-mig-desc">
+                  Transfer lookup files (CSV) between Splunk instances. Migrate all or individual lookups, with overwrite support.
+                </div>
+                <hr class="splunk-mig-sep" />
+                <div class="splunk-mig-opts-title">Key Dashboard Options</div>
+                <ul class="splunk-mig-opts">
+                  <li><strong>Source Host:</strong> Host/IP of source Splunk instance</li>
+                  <li><strong>Destination Host:</strong> Host/IP of target Splunk instance</li>
+                  <li><strong>Source Token:</strong> Auth token for source (or Username/Password)</li>
+                  <li><strong>Destination Token:</strong> Auth token for destination (or Username/Password)</li>
+                  <li><strong>Source App:</strong> App on source to migrate from</li>
+                  <li><strong>Lookup Name:</strong> Lookup file name (e.g., <span class="splunk-mig-chip">my_lookup.csv</span>) or "all"</li>
+                  <li><strong>Overwrite Existing:</strong> Overwrite lookups on destination</li>
+                </ul>
               </div>
-              <div class="splunk-mig-desc">
-                Transfer lookup files (CSV) between Splunk instances. Migrate all or individual lookups, with overwrite support.
-              </div>
-              <hr class="splunk-mig-sep" />
-              <div class="splunk-mig-opts-title">Key Dashboard Options</div>
-              <ul class="splunk-mig-opts">
-                <li><strong>Source Host:</strong> Host/IP of source Splunk instance</li>
-                <li><strong>Destination Host:</strong> Host/IP of target Splunk instance</li>
-                <li><strong>Source Token:</strong> Auth token for source (or Username/Password)</li>
-                <li><strong>Destination Token:</strong> Auth token for destination (or Username/Password)</li>
-                <li><strong>Source App:</strong> App on source to migrate from</li>
-                <li><strong>Lookup Name:</strong> Lookup file name (e.g., <span class="splunk-mig-chip">my_lookup.csv</span>) or "all"</li>
-                <li><strong>Overwrite Existing:</strong> Overwrite lookups on destination</li>
-              </ul>
-            </div>
+            </a>
 
             <!-- Migration Validator -->
-            <div class="splunk-mig-card" tabindex="0">
-              <div class="splunk-mig-title">
-                <span class="splunk-mig-icon">&#128269;</span>
-                Migration Validator
-                <span class="splunk-mig-chip">migrationvalidator</span>
+            <!-- IMPORTANT: Replace 'YOUR_SPLUNK_APP_NAME' with the actual name of your Splunk app -->
+            <a href="/app/cloud-migration/migration-validator" class="splunk-mig-card-link" target="_self" tabindex="0">
+              <div class="splunk-mig-card">
+                <div class="splunk-mig-title">
+                  <span class="splunk-mig-icon">&#128269;</span>
+                  Migration Validator
+                  <span class="splunk-mig-chip">migrationvalidator</span>
+                </div>
+                <div class="splunk-mig-desc">
+                  Compares counts and lists of Splunk knowledge objects, KVStore collections, lookups, or roles between a source and destination instance.
+                </div>
+                <hr class="splunk-mig-sep" />
+                <div class="splunk-mig-opts-title">Key Dashboard Options</div>
+                <ul class="splunk-mig-opts">
+                  <li><strong>Source Host:</strong> Hostname/IP of source Splunk instance</li>
+                  <li><strong>Destination Host:</strong> Hostname/IP of target Splunk instance</li>
+                  <li><strong>Source Token:</strong> Auth token for source</li>
+                  <li><strong>Destination Token:</strong> Auth token for destination</li>
+                  <li><strong>Validation Type:</strong> Choose 'ko', 'kvstore', 'lookups', or 'roles'</li>
+                  <li><strong>Source App:</strong> App on source (required for KO, KVStore, Lookups)</li>
+                </ul>
               </div>
-              <div class="splunk-mig-desc">
-                Compares counts and lists of Splunk knowledge objects, KVStore collections, lookups, or roles between a source and destination instance.
-              </div>
-              <hr class="splunk-mig-sep" />
-              <div class="splunk-mig-opts-title">Key Dashboard Options</div>
-              <ul class="splunk-mig-opts">
-                <li><strong>Source Host:</strong> Hostname/IP of source Splunk instance</li>
-                <li><strong>Destination Host:</strong> Hostname/IP of target Splunk instance</li>
-                <li><strong>Source Token:</strong> Auth token for source</li>
-                <li><strong>Destination Token:</strong> Auth token for destination</li>
-                <li><strong>Validation Type:</strong> Choose 'ko', 'kvstore', 'lookups', or 'roles'</li>
-                <li><strong>Source App:</strong> App on source (required for KO, KVStore, Lookups)</li>
-              </ul>
-            </div>
+            </a>
 
           </div>
         </div>
